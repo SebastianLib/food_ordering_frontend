@@ -14,7 +14,7 @@ import { AddLocationAlt } from "@mui/icons-material";
 import { ErrorMessage, Field, Formik, Form } from "formik";
 import * as Yup from "yup";
 
-const style = {
+export const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
