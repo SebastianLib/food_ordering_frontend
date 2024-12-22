@@ -9,23 +9,36 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MenuCard from "./MenuCard";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getRestaurantById } from "../../state/Restaurant/action";
+
+const categories = ["pizza", "biryani", "burger", "chicken", "rice"];
+
+const foodTypes = [
+  { label: "All", value: "all" },
+  { label: "Vegetarian only", value: "vegetarian" },
+  { label: "Non-Vegetarian", value: "non_vegetarian" },
+  { label: "Seasonal", value: "seasonal" },
+];
+
+const menu = [1,1,1,1,1,1];
 
 const RestaurantDetails = () => {
   const [foodType, setFoodType] = useState("all");
   const [category, setCategory] = useState("pizza");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem('jwt');
+  const {auth, restaurant} = useSelector(store=>store);
+  const {id} = useParams();
+  
+  useEffect(()=>{
+    dispatch(getRestaurantById({jwt, restaurantId:id}))
+  },[])
 
-  const categories = ["pizza", "biryani", "burger", "chicken", "rice"];
-
-  const foodTypes = [
-    { label: "All", value: "all" },
-    { label: "Vegetarian only", value: "vegetarian" },
-    { label: "Non-Vegetarian", value: "non_vegetarian" },
-    { label: "Seasonal", value: "seasonal" },
-  ];
-
-  const menu = [1,1,1,1,1,1];
 
   const handleFilter = (e) => {
     if(e.target.name === "food_type"){
@@ -46,14 +59,14 @@ const RestaurantDetails = () => {
             <Grid item xs={12}>
               <img
                 className="w-full h-[40vh] object-cover"
-                src="https://cdn.pixabay.com/photo/2020/03/26/20/54/table-4971785_1280.jpg"
+                src={restaurant.restaurant?.images[0]}
                 alt=""
               />
             </Grid>
             <Grid item xs={12} lg={6}>
               <img
                 className="w-full h-[40vh] object-cover"
-                src="https://cdn.pixabay.com/photo/2020/06/21/15/55/cup-of-coffee-5325613_1280.jpg"
+                src={restaurant.restaurant?.images[1]}
                 alt=""
               />
             </Grid>
@@ -67,12 +80,10 @@ const RestaurantDetails = () => {
           </Grid>
         </div>
         <div className="pt-3 pb-5">
-          <h1 className="text-4xl font-semibold">Indian Fast Food</h1>
+          <h1 className="text-4xl font-semibold">{restaurant.restaurant?.name}</h1>
           <div className="space-y-3">
             <span className="text-gray-500">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro
-              rem eaque pariatur similique, sed autem. Lorem ipsum dolor, sit
-              amet consectetur adipisicing elit. Nobis, explicabo!
+            {restaurant.restaurant?.description}
             </span>
             <p className="text-gray-500 flex items-center gap-3">
               <LocationCity />
@@ -140,7 +151,7 @@ const RestaurantDetails = () => {
         </div>
 
         <div className="space-y-5 lg:w-[80%] lg:pl-10">
-          {menu.map((item)=><MenuCard/>)}
+          {menu.map((item, i)=><MenuCard key={i}/>)}
         </div>
       </section>
     </div>

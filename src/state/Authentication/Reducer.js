@@ -46,6 +46,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         user: action.payload,
+        favorites: action.payload.favorites,
         success: "Register success",
       };
 

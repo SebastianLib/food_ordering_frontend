@@ -72,13 +72,13 @@ export const getUser = (jwt) => async (dispatch) => {
     console.log("error", error);
   }
 };
-export const addToFavorie =
+export const addToFavorite =
   ({ jwt, restaurantId }) =>
   async (dispatch) => {
     dispatch({ type: ADD_TO_FAVORITE_REQUEST });
     try {
       const { data } = await api.put(
-        `/api/restaurants/${restaurantId}/add-favorite`,
+        `/api/restaurants/${restaurantId}/add-favorites`,
         {},
         {
           headers: {
