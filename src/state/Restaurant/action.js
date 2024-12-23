@@ -280,7 +280,7 @@ export const createCategoryAction = ({reqData,jwt }) => {
     dispatch({ type: CREATE_CATEGORY_REQUEST });
     try {
       const { data } = await api.post(
-        `/api/admin/category`,
+        `/api/admin/category`, reqData,
         {
           headers: {
             Authorization: `Bearer ${jwt}`,

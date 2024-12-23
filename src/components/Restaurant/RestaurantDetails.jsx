@@ -13,9 +13,8 @@ import React, { useEffect, useState } from "react";
 import MenuCard from "./MenuCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getRestaurantById } from "../../state/Restaurant/action";
-
-const categories = ["pizza", "biryani", "burger", "chicken", "rice"];
+import { getRestaurantById, getRestaurantsCategory } from "../../state/Restaurant/action";
+import { getMenuItemsByRestaurantId } from "../../state/Menu/Action";
 
 const foodTypes = [
   { label: "All", value: "all" },
@@ -37,6 +36,15 @@ const RestaurantDetails = () => {
   
   useEffect(()=>{
     dispatch(getRestaurantById({jwt, restaurantId:id}))
+    dispatch(getRestaurantsCategory({jwt, restaurantId:id}))
+    dispatch(getMenuItemsByRestaurantId({
+      jwt, 
+      restaurantId:id,
+      vegetarian: true,
+      nonveg: true,
+      seasonal: true,
+      foodCategory: "pizza"
+    }))
   },[])
 
 
@@ -136,12 +144,12 @@ const RestaurantDetails = () => {
                   name="food_category"
                   value={category || "all"}
                 >
-                  {categories.map((item, index) => (
+                  {restaurant?.categories?.map((item, index) => (
                     <FormControlLabel
                       key={index}
-                      value={item}
+                      value={item.name}
                       control={<Radio />}
-                      label={item}
+                      label={item.name}
                     />
                   ))}
                 </RadioGroup>

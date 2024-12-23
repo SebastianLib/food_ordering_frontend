@@ -9,7 +9,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem('jwt');
   const {restaurant}= useSelector(store=>store)
-  console.log(restaurant);
   
   useEffect(()=>{
    dispatch(getAllRestaurantsAction(jwt));

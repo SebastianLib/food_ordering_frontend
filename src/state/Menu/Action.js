@@ -1,4 +1,4 @@
-import api from "../../config/api";
+import {api} from "../../config/api";
 import {
   CREATE_MENU_ITEM_FAILURE,
   CREATE_MENU_ITEM_REQUEST,
@@ -36,9 +36,11 @@ export const createMenuItem = ({ menu, jwt }) => {
   };
 };
 
-export const getMenuItemsByRestaurantId = ({ reqData }) => {
+export const getMenuItemsByRestaurantId = (reqData ) => {
   return async (dispatch) => {
     dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_REQUEST });
+    console.log("eeee", reqData);
+    
     try {
       const { data } = await api.get(
         `/api/food/restaurant/${reqData.restaurantId}?vegetarian=${reqData.vegetarian}&nonveg=${reqData.nonveg}\
