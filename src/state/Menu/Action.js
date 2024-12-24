@@ -39,8 +39,6 @@ export const createMenuItem = ({ menu, jwt }) => {
 export const getMenuItemsByRestaurantId = (reqData ) => {
   return async (dispatch) => {
     dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_REQUEST });
-    console.log("eeee", reqData);
-    
     try {
       const { data } = await api.get(
         `/api/food/restaurant/${reqData.restaurantId}?vegetarian=${reqData.vegetarian}&nonveg=${reqData.nonveg}\
