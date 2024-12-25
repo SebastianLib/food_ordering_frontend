@@ -1,5 +1,5 @@
 import { api } from "../../config/api";
-import { CREATE_ORDER_FAILURE, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, GET_USERS_ORDERS_SUCCESS } from "./ActionTypes";
+import { CREATE_ORDER_FAILURE, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, GET_USERS_ORDERS_FAILURE, GET_USERS_ORDERS_REQUEST, GET_USERS_ORDERS_SUCCESS } from "./ActionTypes";
 
 export const createOrder = (reqData) => {
   return async (dispatch) => {
@@ -23,24 +23,23 @@ export const createOrder = (reqData) => {
   };
 };
 
-export const getUsersOrder = (jwt) => {
+export const getUsersOrders = (jwt) => {
   return async (dispatch) => {
-    dispatch({ type: GET_USERS_ORDERS_SUCCESS });
+    dispatch({ type: GET_USERS_ORDERS_REQUEST }); // Poprawny typ dla rozpoczęcia akcji
+    
     try {
-      const { data } = await api.get(`/api/order/user`,{
+      const { data } = await api.get(`/api/order/user`, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
-    //   if(data.payment_url){
-    //     window.location.href=data.payment_url;
-    //   }
-      dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
-      console.log(data);
+      console.log("data", data);
+
+      dispatch({ type: GET_USERS_ORDERS_SUCCESS, payload: data }); // Użyj właściwego typu akcji
     } catch (error) {
       console.log("error: ", error);
 
-      dispatch({ type: CREATE_ORDER_FAILURE, payload: error });
+      dispatch({ type: GET_USERS_ORDERS_FAILURE, payload: error });
     }
   };
 };

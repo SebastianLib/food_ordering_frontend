@@ -59,12 +59,13 @@ export const addItemToCart = (reqData) => {
 };
 
 export const updateCartItem = (reqData) => {
+  
   return async (dispatch) => {
     dispatch({ type: UPDATE_CARTITEM_REQUEST });
     try {
-      const { data } = await api.put(`/api/cart-item/update`, reqData.data, {
+      const { data } = await api.put(`/api/cart-item/update`, reqData, {
         headers: {
-          Authorization: `Bearer ${reqData.jwt}`,
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         },
       });
       dispatch({ type: UPDATE_CARTITEM_SUCCESS, payload: data });

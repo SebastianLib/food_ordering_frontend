@@ -5,6 +5,7 @@ import CustomerRoute from "./Routes/CustomerRoute";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./state/Authentication/Action";
+import { findCart } from "./state/Cart/Action";
 
 function App() {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ function App() {
   
   useEffect(()=>{
     dispatch(getUser(auth.jwt || jwt))
+    dispatch(findCart(auth.jwt || jwt))
   },[auth.jwt])
 
   return (

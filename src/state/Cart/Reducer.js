@@ -37,10 +37,11 @@ export const cartReducer = (state = initialState, action) => {
       };
 
     case actionTypes.UPDATE_CARTITEM_SUCCESS:
+
       return {
         ...state,
-        loading: true,
-        cartItems: state.cartItems.filter((item) =>
+        loading: false, 
+        cartItems: state.cartItems.map((item) =>
           item.id === action.payload.id ? action.payload : item
         ),
       };

@@ -13,6 +13,8 @@ export const orderReducer = (state = initialState, {type, payload}) =>{
             return {...state, loading: true, error: null};
 
         case GET_USERS_ORDERS_SUCCESS:
+            console.log("orders", payload);
+            
             return {...state, loading: false, error: null, orders: payload};
 
         case GET_USERS_ORDERS_FAILURE:
