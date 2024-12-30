@@ -1,11 +1,10 @@
-import Navbar from "./components/Navbar/Navbar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme/DarkTheme";
-import CustomerRoute from "./Routes/CustomerRoute";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./state/Authentication/Action";
 import { findCart } from "./state/Cart/Action";
+import Routers from "./Routes/Routers";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,8 +19,7 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Navbar />
-      <CustomerRoute />
+      <Routers/>
     </ThemeProvider>
   );
 }

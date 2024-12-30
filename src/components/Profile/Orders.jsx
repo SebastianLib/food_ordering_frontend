@@ -5,21 +5,24 @@ import { useNavigate } from "react-router-dom";
 import { getUsersOrders } from "../../state/Order/Action";
 
 const Orders = () => {
-  const {auth, cart, order} = useSelector((store)=>store)
+  const { auth, cart, order } = useSelector((store) => store);
   const navigate = useNavigate();
   const jwt = localStorage.getItem("jwt");
   const dispatch = useDispatch();
-  console.log("order", order);
-  
-  useEffect(()=>{
-    dispatch(getUsersOrders(jwt))
-  },[auth.jwt])
+
+  useEffect(() => {
+    dispatch(getUsersOrders(jwt));
+  }, [auth.jwt]);
 
   return (
     <div className="pt-24 flex items-center flex-col">
       <h1 className="text-xl text-center py-7 font-semibold">My Orders</h1>
       <div className="space-y-5 w-full lg:w-1/2">
-        {order.orders?.map((item, i) => <OrderCard key={i} item={item}/>)}
+        {order.orders.map((o) => {
+          return o.items?.map((item, i) => (
+            <OrderCard order={o} key={i} item={item} />
+          ));
+        })}
       </div>
     </div>
   );
