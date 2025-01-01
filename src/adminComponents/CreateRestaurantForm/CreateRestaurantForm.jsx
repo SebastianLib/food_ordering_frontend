@@ -50,6 +50,7 @@ const CreateRestaurantForm = () => {
         images: values.images,
       };
       console.log("data", data);
+      console.log("Fdfd");
       
     },
   });
