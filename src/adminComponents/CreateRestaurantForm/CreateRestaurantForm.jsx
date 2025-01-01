@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import React, { useState } from "react";
+import { uploadImageToCloudinary } from "../../utils/UploadToCloudinary";
 
 const CreateRestaurantForm = () => {
   const [uploadImage, setUploadImage] = useState();
@@ -50,20 +51,23 @@ const CreateRestaurantForm = () => {
         images: values.images,
       };
       console.log("data", data);
-      console.log("Fdfd");
-      
     },
   });
 
-  const handleImageChange = (event) => {
+  const handleImageChange = async(event) => {
     // Update Formik field for image
     const file = event.target.files[0];
-    if (file) {
-      formik.setFieldValue("restaurantImage", file);
-    }
+    setUploadImage(true);
+    const image = await uploadImageToCloudinary(file)
+    formik.setFieldValue("images", [...formik.values.images, image]);
+    setUploadImage(false);
   };
 
-  const handleRemoveImage = (index) => {};
+  const handleRemoveImage = (index) => {
+    const updatedImages = [...formik.values.images];
+    updatedImages.splice(index, 1);
+    formik.setFieldValue("images", updatedImages);
+  };
 
   return (
     <div className="lg:flex lg:flex-col items-center justify-center min-h-screen">
@@ -96,10 +100,10 @@ const CreateRestaurantForm = () => {
                 )}
               </label>
               <div className="flex flex-wrap gap-2">
-                {[1, 1, 1].map((image, index) => (
+                {formik.values.images.map((image, index) => (
                   <div className="relative">
                     <img
-                      src="https://cdn.pixabay.com/photo/2020/06/21/15/55/cup-of-coffee-5325613_1280.jpg"
+                      src={image}
                       alt=""
                       key={index}
                       className="w-24 h-24 object-cover"
